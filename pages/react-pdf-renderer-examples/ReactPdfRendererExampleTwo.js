@@ -12,10 +12,35 @@ import {
   Line,
   Svg,
   Polygon,
+  Circle,
   Image,
   
 } from "@react-pdf/renderer";
 import CustomPDFViewer from "./CustomPDFViewer";
+import PDFTable from "./PDFTable";
+
+const tableData = [
+  {
+    id: 1,
+    name: "Yasmine Kihn",
+    gender: "female",
+    phone: "8354650298",
+  },
+  {
+    id: 2,
+    name: "Moriah Pollich",
+    gender: "female",
+    phone: "7854389123",
+  },
+  {
+    id: 3,
+    name: "Bernie Goodwin",
+    gender: "male",
+    phone: "9756893422",
+  },
+];
+
+
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -80,7 +105,7 @@ function ReactPdfRendererExampleTwo() {
   <Page>
     <Text> Hello, second page!</Text>
   </Page>
-  
+
         {/*render a single page*/}
         <Page size="A4" style={styles.page}>
           <View style={styles.section}>
@@ -137,6 +162,32 @@ function ReactPdfRendererExampleTwo() {
     Second break
   </Text>
         </Page>
+
+        <Page size="A4" style={styles.page}>
+        <View>
+          <Text style={styles.heading}>My Enhanced PDF</Text>
+          <PDFTable
+            tableHeaders={[
+              { title: "Name", value: "name" },
+              { title: "Gender", value: "gender" },
+              { title: "Phone", value: "phone" },
+            ]}
+            data={tableData}
+            heading="Employee Details"
+          />
+        </View>
+      </Page>
+      <Page style={styles.page} size="A4">
+      {/* <Svg viewBox="0 0 100 100">
+        <Circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="tomato"
+          stroke="gray"
+        />
+      </Svg> */}
+    </Page>
       </Document>
       </CustomPDFViewer>
     
