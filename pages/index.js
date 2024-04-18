@@ -9,6 +9,8 @@ import ReactPdfRendererExampleOne from './react-pdf-renderer-examples/ReactPdfRe
 import ReactPdfRendererExampleTwo from './react-pdf-renderer-examples/ReactPdfRendererExampleTwo';
 import { degrees, PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import fontkit from '@pdf-lib/fontkit'
+import MarkdownToPdfEcampleOne from './markdown-to-pdf/MarkdownToPdfEcampleOne';
+import MarkdownToPdfEcampleTwo from './markdown-to-pdf/MarkdownToPdfEcampleTwo';
 
 
 const Home = () => {
@@ -637,7 +639,7 @@ const Home = () => {
           <div className="pt-[10] pb-[10px] text-[16px] font-bold">react-to-pdf-examples One</div>
           <ReactToPDFExampleOne />
         </div>
-        <div className="w-[100%] pt-[20px] pb-[20px]">
+        {/* <div className="w-[100%] pt-[20px] pb-[20px]">
           <div>react-pdf-renderer-examples</div>
           <div className="w-[100%] pt-[20px] pb-[20px]">
             <ReactPdfRendererExampleTwo />
@@ -645,7 +647,20 @@ const Home = () => {
           <div className="w-[100%] pt-[20px] pb-[20px]">
             <ReactPdfRendererExampleOne />
           </div>
+        </div> */}
+
+          <div className="w-[100%] pt-[20px] pb-[20px]">
+          <div>markdown-to-pdf-examples</div>
+          <div className="w-[100%] pt-[20px] pb-[20px]">
+            <MarkdownToPdfEcampleOne />
+          </div>
+          <br />
+          <div className="w-[100%] pt-[20px] pb-[20px]">
+            <MarkdownToPdfEcampleTwo />
+          </div>
         </div>
+
+
 
         <div className="w-[100%] pt-[20px] pb-[20px]">
           <div> pdf-lib Examples</div>
