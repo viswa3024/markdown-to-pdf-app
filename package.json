@@ -17,6 +17,7 @@
     "highlight.js": "^11.9.0",
     "html-pdf": "^1.5.0",
     "html2pdf.js": "^0.10.1",
+    "image-proxy": "^0.0.7",
     "jspdf": "^2.5.1",
     "markdown-it": "^14.1.0",
     "markdown-it-attrs": "^4.1.6",

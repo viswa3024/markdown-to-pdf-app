@@ -21,7 +21,9 @@ import classes from './markdown-styles.module.css';
 
 
 import CustomPDFViewer from "./CustomPDFViewer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+//import imageProxy from 'image-proxy';
 
 const CopyIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width={15} height={15} stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -73,13 +75,18 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 40,
-  },
+  }
 });
 
 const ReactPdfRendererReactMarkdown = () => {
 
   const markdownContent = `
-# Markdown to PDF Example
+# Markdown to PDF Example 1
+## Markdown to PDF Example 2 
+### Markdown to PDF Example 3 
+#### Markdown to PDF Example 4 
+##### Markdown to PDF Example 5 
+###### Markdown to PDF Example 6
 
 This is an example of how to generate a PDF from Markdown content using React and @react-pdf/renderer.
 
@@ -93,6 +100,11 @@ You can write your Markdown content here and it will be rendered into a PDF.
 - and more...
 
 Enjoy!
+
+![React Logo](https://reactjs.org/logo-og.png)
+
+![test Logo](https://images.pexels.com/photos/20066389/pexels-photo-20066389/free-photo-of-a-bubble-is-floating-in-the-sky-over-trees.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
+
 `;
 
   const [copyMessages, setCopyMessages] = useState({});
@@ -167,21 +179,73 @@ Enjoy!
     return <table className={classes.customTable}>{children}</table>;
   };
 
+  const h1Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 24,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+  const h2Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 19.2,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+  const h3Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 17.6,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+  const h4Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 16,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+  const h5Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 13.28,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+  const h6Component = ({ children }) => {
+    return <Text style={{
+      color: '#000000',
+      fontSize: 10.72,
+      fontWeight: 'bold',
+      padding: '5',
+    }}>{children}</Text>;
+  };
+
   const defaultComponent = ({ children }) => {
     return <Text>{children}</Text>;
   };
 
   const customRenderers = {
-    h1: defaultComponent,
-    h2: defaultComponent,
-    h3: defaultComponent,
-    h4: defaultComponent,
-    h5: defaultComponent,
+    h1: h1Component,
+    h2: h2Component,
+    h3: h3Component,
+    h4: h4Component,
+    h5: h5Component,
+    h6: h6Component,
     p(paragraph) {
       const { node } = paragraph;
 
       if (node.children[0].tagName === 'img') {
         const image = node.children[0];
+        //const proxyUrl = imageProxy(image.properties.src);
+        //const proxyUrl = 'https://cors-anywhere.herokuapp.com/' + image.properties.src;
         return (
           <View className={classes.image}>
             <Image src={image.properties.src} alt={image.alt} width={800} height={400} />
@@ -227,6 +291,37 @@ Enjoy!
     },
     table: TableComponent,
   };
+
+  // const base64ToBlob = (base64String) => {
+  //   const byteCharacters = atob(base64String);
+  //   const byteNumbers = new Array(byteCharacters.length);
+  //   for (let i = 0; i < byteCharacters.length; i++) {
+  //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //   }
+  //   const byteArray = new Uint8Array(byteNumbers);
+  //   return new Blob([byteArray], { type: 'image/jpeg' }); // Change the MIME type accordingly
+  // };
+
+  // useEffect(() => {
+  //   axios.post('/api/proxy-image', { imageUrl: "https://reactjs.org/logo-og.png" })
+  //   .then((response) => {
+  //     debugger
+  //     const imageData= response.data.base64Image;
+
+  //     const blob = base64ToBlob(imageData);
+  //   const url = URL.createObjectURL(blob);
+
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'image.jpg'; // Set the file name here
+  //   document.body.appendChild(a);
+  //   a.click();
+
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching base64 image:', error);
+  //   });
+  // }, []);
 
   return (<>
    <ReactMarkdown components={customRenderersReactMarkdown} remarkPlugins={[remarkGfm]}>
