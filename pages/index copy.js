@@ -1,5 +1,5 @@
 // pages/index.js
-import React, { useState, useRef  } from 'react';
+import React, { useState } from 'react';
 import LinkPdfDownload from './react-pdf-examples/examples/LinkPdfDownload';
 import generatePdfDocument from './react-pdf-examples/generatePdfDocument';
 import ReactToPDFExampleOne from './react-to-pdf-examples/ReactToPDFExampleOne';
@@ -12,22 +12,15 @@ import fontkit from '@pdf-lib/fontkit'
 import MarkdownToPdfEcampleOne from './markdown-to-pdf/MarkdownToPdfEcampleOne';
 import MarkdownToPdfEcampleTwo from './markdown-to-pdf/MarkdownToPdfEcampleTwo';
 import axios from 'axios';
-import MarkdownIt from 'markdown-it';
-import jsPDF from 'jspdf';
-import ReactPdfRendererReactMarkdown from './react-pdf-renderer-examples/ReactPdfRendererReactMarkdown';
-//import JsPdfExampleOne from './JsPDFExamples/JsPdfExampleOne';
 
 
 const Home = () => {
-
-  const jsPdfExampleRef = useRef(null);
-
   const [markdownContent, setMarkdownContent] = useState('');
   const generatePdfDocumentHandle = (fileName) => {
     generatePdfDocument(fileName)
   }
 
-  const markdownText = `
+  const markdownTextData = `
 # Example Markdown Text
 
 This is an example Markdown text. You can include various elements such as:
@@ -38,192 +31,12 @@ This is an example Markdown text. You can include various elements such as:
 - Images
 `;
 
-const markdownTextData = `
-# Heading 1
-This is a paragraph.
-
-- Item 1
-- Item 2
-- Item 3
-`;
-
-const handleGeneratePdf = () => {
-  const doc = new jsPDF({
-    format: 'a4',
-    unit: 'px',
-  });
-
-  // Adding the fonts.
-  doc.setFont('Inter-Regular', 'normal');
-
-  doc.html(jsPdfExampleRef.current, {
-    async callback(doc) {
-      await doc.save('document');
-    },
-  });
-};
-
-const jsPdfEample = async (markdownText) => {
-  try {
-    // Parse Markdown text to HTML
-
-    const markdownIt = new MarkdownIt({
-      highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value;
-          } catch (__) {}
-        }
-  
-        return ''; // use external default escaping
-      },
-    });
-
-    markdownIt.renderer.rules.text = (tokens, idx, options, env, self) => {
-      // Concatenate the text content and return it
-      let text = '';
-      for (let i = idx; i < tokens.length; i++) {
-        text += tokens[i].content;
-      }
-      return text;
-    };
-
-    const htmlContent = markdownIt.render(markdownText);
-
-    const styledHtmlContent = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      color: #007bff;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    p {
-      margin-bottom: 10px;
-    }
-    ul {
-      margin-bottom: 10px;
-      padding-left: 20px;
-    }
-    li {
-      margin-bottom: 5px;
-    }
-  </style>
-</head>
-<body>
-  ${htmlContent}
-</body>
-</html>
-`;
-    console.log("styledHtmlContent: ", styledHtmlContent)
-
-    //const pdf = new jsPDF();
-
-    const pdf = new jsPDF({
-      orientation: 'p', // 'p' for portrait, 'l' for landscape
-      unit: 'pt', // Points - default value
-      format: [800, 1000] // Custom width and height (in points)
-    });
-
-    pdf.html(styledHtmlContent, {
-      callback: pdf => {
-        pdf.save('document.pdf');
-      }
-    });
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-  }
-};
-
-
-const markdownPdfDownload = async (markdownText) => {
-  try {
-    // Parse Markdown text to HTML
-    const md = new MarkdownIt();
-    const htmlContent = md.render(markdownText);
-
-    // Call the API route to generate PDF
-    const response = await axios.post('/api/markdown-pdf', { htmlContent }, {
-      responseType: 'blob', // Ensure response type is blob
-    });
-
-    // Create a blob URL for the PDF data
-    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-
-    // Open the PDF in a new tab
-    window.open(pdfUrl, '_blank');
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-  }
-};
-
-const markdownPdfDownload4 = async (markdownText) => {
-  try {
-    // Call the API route to generate PDF
-    const response = await axios.post('/api/markdown-pdf', { markdownText }, {
-      responseType: 'blob', // Ensure response type is blob
-    });
-
-    // Create a blob URL for the PDF data
-    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-
-    // Open the PDF in a new tab
-    window.open(pdfUrl, '_blank');
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-  }
-};
-
-
-
-async function markdownPdfDownload2() {
-  try {
-    const response = await fetch('/api/markdown-pdf');
-    if (!response.ok) {
-      throw new Error('Failed to fetch PDF');
-    }
-
-    debugger
-    const pdfBlob = await response.blob();
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    
-    // Open the PDF in a new tab
-    window.open(pdfUrl, '_blank');
-  } catch (error) {
-    console.error('Error fetching PDF:', error);
-  }
-}
-
-async function markdownPdfDownload1(markdownText) {
+async function markdownPdfDownload(markdownText) {
   try {
     const response = await axios.post('/api/markdown-pdf', { markdownText }, { responseType: 'blob' });
-    debugger
-    const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-    // const url = window.URL.createObjectURL(blob);
-    // window.open(url, '_blank');
-
-    //const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-
-    // Create download link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(pdfBlob);
-    downloadLink.download = 'example.pdf';
-  
-    // Trigger download
-    downloadLink.click();
-
-
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, '_blank');
   } catch (error) {
     console.error('Error generating PDF:', error);
   }
@@ -871,18 +684,18 @@ async function markdownPdfDownload1(markdownText) {
   return (
     <div className="App">
       <div className="main-container">
-        {/* <LinkPdfDownload /> */}
-        {/* <div>
+        <LinkPdfDownload />
+        <div>
         <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>generatePdfDocumentHandle("sample_one_test.pdf")}>
           Download generatePdfDocument
         </div>
-        </div> */}
+        </div>
 
-        {/* <div className="mt-[20px]">
+        <div className="mt-[20px]">
           <div className="pt-[10] pb-[10px] text-[16px] font-bold">react-to-pdf-examples One</div>
           <ReactToPDFExampleOne />
-        </div> */}
+        </div>
         {/* <div className="w-[100%] pt-[20px] pb-[20px]">
           <div>react-pdf-renderer-examples</div>
           <div className="w-[100%] pt-[20px] pb-[20px]">
@@ -893,7 +706,7 @@ async function markdownPdfDownload1(markdownText) {
           </div>
         </div> */}
 
-          {/* <div className="w-[100%] pt-[20px] pb-[20px]">
+          <div className="w-[100%] pt-[20px] pb-[20px]">
           <div>markdown-to-pdf-examples</div>
           <div className="w-[100%] pt-[20px] pb-[20px]">
             <MarkdownToPdfEcampleOne />
@@ -902,133 +715,107 @@ async function markdownPdfDownload1(markdownText) {
           <div className="w-[100%] pt-[20px] pb-[20px]">
             <MarkdownToPdfEcampleTwo />
           </div>
-        </div> */}
-
-        <div className="w-[100%] pt-[20px] pb-[20px]">
-        {/* <div> jspdf Examples</div> */}
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={()=>jsPdfEample(markdownTextData)}>
-          Download jsPdfEample
-        </div> */}
-
-        {/* <div>
-			<button className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleGeneratePdf}>
-				Generate JS PDF
-			</button>
-			<div ref={jsPdfExampleRef}>
-        <JsPdfExampleOne />
-      </div>
-		</div> */}
-
-        </div>
-
-        <div className="w-[100%] pt-[20px] pb-[20px]">
-          <div> React-Markdown and React-PDF-Renderer Examples</div>
-         <div className="w-[100%] pt-[20px] pb-[20px]">
-            <ReactPdfRendererReactMarkdown />
-         </div>
-        <br/>
         </div>
 
 
 
         <div className="w-[100%] pt-[20px] pb-[20px]">
-          {/* <div> pdf-lib Examples</div> */}
-          {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          <div> pdf-lib Examples</div>
+          <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>markdownPdfDownload(markdownTextData)}>
           Download markdownPdfDownload
-        </div> */}
+        </div>
         <br/>
 
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>createPdf()}>
           Download createPdf
-        </div> */}
+        </div>
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>modifyPdf()}>
           Download modifyPdf
-        </div> */}
+        </div>
 
           <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>createForm()}>
           Download createForm
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>fillForm()}>
           Download fillForm
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>flattenForm()}>
           Download flattenForm
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>copyPages()}>
           Download copyPages
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>embedImages()}>
           Download embedImages
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>embedPdfPages()}>
           Download embedPdfPages
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>embedFontAndMeasureText()}>
           Download embedFontAndMeasureText
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>addAttachments()}>
           Download addAttachments
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>setDocumentMetadata()}>
           Download setDocumentMetadata
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>readDocumentMetadata()}>
           Download readDocumentMetadata
-        </div> */}
+        </div>
 
         <br/>
-        {/* <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={()=>drawSvgPaths()}>
           Download drawSvgPaths
-        </div> */}
+        </div>
 
 
 
         </div>
 
-        {/* <div className="mt-[20px]">
+        <div className="mt-[20px]">
           <div className="pt-[10] pb-[10px] text-[16px] font-bold">react-to-pdf-examples Two</div>
           <ReactToPDFExampleTwo />
-        </div> */}
+        </div>
 
-        {/* <div className="mt-[20px]">
+        <div className="mt-[20px]">
           <div className="pt-[10] pb-[10px] text-[16px] font-bold">react-to-pdf-examples Three</div>
           <ReactToPDFExampleThree />
-        </div> */}
+        </div>
       </div>
     </div>
   );

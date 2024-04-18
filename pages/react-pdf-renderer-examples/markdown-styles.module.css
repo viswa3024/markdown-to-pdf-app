@@ -1,0 +1,73 @@
+.content {
+    width: 95%;
+    max-width: 60rem;
+    margin: var(--size-8) auto;
+    font-size: var(--size-5);
+    line-height: var(--size-8);
+    background-color: var(--color-grey-100);
+    border-radius: 6px;
+    padding: var(--size-4);
+  }
+  
+  .content p {
+    color: var(--color-grey-800);
+  }
+  
+  .content .image {
+    margin: var(--size-4) auto;
+    width: 100%;
+    max-width: 600px;
+  }
+
+
+
+
+  
+  @media (min-width: 768px) {
+    .content {
+      padding: var(--size-8);
+    }
+  }
+
+
+
+
+  /* markdown-styles.module.css */
+
+.customTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.image {
+  margin-bottom: 20px;
+}
+
+.code-block {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.copy-button:hover {
+  background-color: #45a049;
+}
+
+.language-label {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  color: #999;
+  font-size: 12px;
+}

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
   };
 
   // Function to fetch online images and include them in HTML
-  const fetchOnlineImages = async (htmlContent) => {  
+  const fetchOnlineImages = async (htmlContent) => {
     const regex = /<img src="(.*?)">/g;
     const matches = htmlContent.match(regex) || [];
     for (const match of matches) {
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       if (srcMatch && srcMatch[1]) {
         const src = srcMatch[1];
         try {
-          const response = await axios.get(src, { responseType: 'arraybuffer',  crossorigin: true });
+          const response = await axios.get(src, { responseType: 'arraybuffer' });
           const base64Image = Buffer.from(response.data, 'binary').toString('base64');
           htmlContent = htmlContent.replace(`<img src="${src}">`, `<img src="data:image/png;base64,${base64Image}" width="400" height="400" />`);
         } catch (error) {
@@ -49,8 +49,8 @@ export default async function handler(req, res) {
     const md = new MarkdownIt();
     let htmlContent = md.render(markdownText);
     htmlContent = await fetchOnlineImages(htmlContent);
-     htmlContent = await convertLocalImagesToBase64(htmlContent);
-    htmlContent = await highlightCodeBlocks(htmlContent); // Apply highlighting
+    // htmlContent = await convertLocalImagesToBase64(htmlContent);
+    // htmlContent = await highlightCodeBlocks(htmlContent); // Apply highlighting
 
     const styledHtmlContent = `
     <style>
