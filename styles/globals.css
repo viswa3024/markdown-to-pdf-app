@@ -33,6 +33,11 @@ body {
   padding: 20px;
 }
 
+#viewer {
+  width: 800px;
+  height:600px;
+}
+
 .custom-botton {
   font-family: inherit;
   font-feature-settings: inherit;

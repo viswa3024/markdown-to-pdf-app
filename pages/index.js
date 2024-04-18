@@ -5,6 +5,8 @@ import generatePdfDocument from './react-pdf-examples/generatePdfDocument';
 import ReactToPDFExampleOne from './react-to-pdf-examples/ReactToPDFExampleOne';
 import ReactToPDFExampleTwo from './react-to-pdf-examples/ReactToPDFExampleTwo';
 import ReactToPDFExampleThree from './react-to-pdf-examples/ReactToPDFExampleThree';
+import ReactPdfRendererExampleOne from './react-pdf-renderer-examples/ReactPdfRendererExampleOne';
+import ReactPdfRendererExampleTwo from './react-pdf-renderer-examples/ReactPdfRendererExampleTwo';
 
 const Home = () => {
   const [markdownContent, setMarkdownContent] = useState('');
@@ -25,6 +27,15 @@ const Home = () => {
         <div className="mt-[20px]">
           <div className="pt-[10] pb-[10px] text-[16px] font-bold">react-to-pdf-examples One</div>
           <ReactToPDFExampleOne />
+        </div>
+        <div className="w-[100%] pt-[20px] pb-[20px]">
+          <div>react-pdf-renderer-examples</div>
+          <div className="w-[100%] pt-[20px] pb-[20px]">
+            <ReactPdfRendererExampleTwo />
+          </div>
+          <div className="w-[100%] pt-[20px] pb-[20px]">
+            <ReactPdfRendererExampleOne />
+          </div>
         </div>
 
         <div className="mt-[20px]">
