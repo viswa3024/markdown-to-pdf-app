@@ -129,7 +129,9 @@ This is a simple example of using \`react-markdown\` with \`remark-gfm\`.
 
 [Visit OpenAI](https://www.openai.com/)
 
-![React Logo](https://images.pexels.com/photos/20066389/pexels-photo-20066389/free-photo-of-a-bubble-is-floating-in-the-sky-over-trees.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
+![React Logo](https://reactjs.org/logo-og.png)
+
+![test Logo](https://images.pexels.com/photos/20066389/pexels-photo-20066389/free-photo-of-a-bubble-is-floating-in-the-sky-over-trees.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)
 
   `);
 
