@@ -15,6 +15,7 @@ import axios from 'axios';
 import MarkdownIt from 'markdown-it';
 import jsPDF from 'jspdf';
 import ReactPdfRendererReactMarkdown from './react-pdf-renderer-examples/ReactPdfRendererReactMarkdown';
+import RadioButtonGroupOne from './RadioButtonGroup/RadioButtonGroupOne';
 //import JsPdfExampleOne from './JsPDFExamples/JsPdfExampleOne';
 
 
@@ -871,6 +872,7 @@ async function markdownPdfDownload1(markdownText) {
   return (
     <div className="App">
       <div className="main-container">
+      <RadioButtonGroupOne />
         {/* <LinkPdfDownload /> */}
         {/* <div>
         <div className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
