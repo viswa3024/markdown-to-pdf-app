@@ -26,13 +26,8 @@ function RadioButtonGroup() {
             borderRadius: '50%',
             border: '2px solid green',
             backgroundColor: selectedOption === "option1" ? 'green' : 'transparent',
-            marginRight: '5px',
-            outline: 'none',
-            padding: '5px' // Added padding
+            marginRight: '5px'
           }}
-          tabIndex="0"
-          onFocus={(e) => e.target.style.border = '2px solid blue'}
-          onBlur={(e) => e.target.style.border = '2px solid green'}
         />
         Option 1
       </label>
@@ -53,13 +48,8 @@ function RadioButtonGroup() {
             borderRadius: '50%',
             border: '2px solid green',
             backgroundColor: selectedOption === "option2" ? 'green' : 'transparent',
-            marginRight: '5px',
-            outline: 'none',
-            padding: '5px' // Added padding
+            marginRight: '5px'
           }}
-          tabIndex="0"
-          onFocus={(e) => e.target.style.border = '2px solid blue'}
-          onBlur={(e) => e.target.style.border = '2px solid green'}
         />
         Option 2
       </label>
