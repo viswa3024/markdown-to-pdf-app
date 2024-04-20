@@ -54,8 +54,39 @@ export default async function handler(req, res) {
       const srcMatchUrl = match.match(/<img src="(.*?)">/);
       const srcMatch = match.match(/<img[^>]*src="([^"]+)"/);
       if (srcMatch && srcMatch[1]) {
+
+        console.log("srcMatch=====: ", srcMatch)
         const src = srcMatch[1];
         const srcUrl = srcMatchUrl[1];
+        console.log("==============src============: ", src)
+        // let imageUrl;
+        // try {
+        //   //console.log("==============imageUrl22============: ", src)
+        //   imageUrl = new URL(decodeURIComponent("https://reactjs.org/logo-og.png"));
+        //   //console.log("==============imageUrl11============: ", imageUrl)
+        // } catch (e) {
+        //   return res.status(400).json({ error: 'Invalid image URL' });
+        // }
+
+        // try {
+        //   //console.log("==============imageUrl============: ", imageUrl)
+
+        //   // Fetch the image from the external source
+        //   const response = await fetch(imageUrl.href);
+
+        //   //console.log("==============response============: ", imageUrl)
+      
+        //   if (!response.ok) {
+        //     return res.status(500).json({ error: 'Failed to fetch image' });
+        //   }
+      
+        //   // Read the image data as a buffer
+        //   const imageBuffer = await response.arrayBuffer();
+        //   //console.log("=========================================:", imageBuffer)
+        // } catch (error) {
+        //   console.error('Error proxying image:', error);
+        // }
+
         try {
           const response = await axios.get(src, { responseType: 'arraybuffer',  crossorigin: false });
           const base64Image = Buffer.from(response.data, 'binary').toString('base64');
@@ -67,24 +98,24 @@ export default async function handler(req, res) {
     }
     return htmlContent;
   };
- 
-  const markdownToHtml = async (markdownText) => {
-    //const md = new MarkdownIt();
 
-    const markdownIt = new MarkdownIt({
-      highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-          try {
-            return hljs.highlight(lang, str).value;
-          } catch (__) {}
-        }
+  // export default async function handler(req, res) {
+  //   try {
+      
+  //     const { imageUrl } = req.body;
+  //     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+  //     const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+  //     res.status(200).json({ base64Image });
+  //   } catch (error) {
+  //     console.error('Error generating PDF:', error);
+  //     res.status(500).json({ error: 'Internal Server Error' });
+  //   }
+  // }
   
-        return ''; // use external default escaping
-      },
-    });
 
-
-    let htmlContent = markdownIt.render(markdownText);
+  const markdownToHtml = async (markdownText) => {
+    const md = new MarkdownIt();
+    let htmlContent = md.render(markdownText);
     htmlContent = await fetchOnlineImages(htmlContent);
     //htmlContent = await convertLocalImagesToBase64(htmlContent);
     htmlContent = await highlightCodeBlocks(htmlContent); // Apply highlighting

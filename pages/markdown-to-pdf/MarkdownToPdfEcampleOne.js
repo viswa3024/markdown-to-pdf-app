@@ -174,7 +174,7 @@ This is a simple example of using \`react-markdown\` with \`remark-gfm\`.
         cols={50}
       />
       <br />
-      <button  onClick={generatePDF}>Download as PDF</button>
+      <button className="mt-[50px] cursor-pointer p-[20px] inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  onClick={generatePDF}>Download as PDF</button>
     </div>
   );
 }
